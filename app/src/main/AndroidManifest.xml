@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="cl.rutasegura.rutaseguracliente">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RutaSeguraCliente"
+        tools:targetApi="31">
+        <activity
+            android:name=".activities.wallet.AddCreditAndDebitCardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.wallet.CardRegistredActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.wallet.WalletActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.historybooking.HistoryBookingDetailClientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.historybooking.HistoryBookingClientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.calificationdriver.CalificationDriverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.maps.MapsClientBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.requestdriver.RequestDriverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.detailrequestactivity.DetailRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.requestdriver.RequestDriverByIdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.maps.MapsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.login.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.splashscreen.SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.register.RegisterActivity"
+            android:exported="true" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <service
+            android:name=".services.MyFirebaseMessagingClient"
+            android:exported="true"
+            tools:ignore="ExportedService,IntentFilterExportedReceiver">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+            <meta-data
+                android:name="firebase_performance_logcat_enabled"
+                android:value="true" />
+
+    </application>
+
+</manifest>
