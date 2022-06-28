@@ -2,11 +2,14 @@ package cl.rutasegura.rutaseguracliente.activities.maps;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -71,6 +74,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import cl.rutasegura.rutaseguracliente.ConstantValues.ConstantsValues;
+import cl.rutasegura.rutaseguracliente.DataProccessor.DataProccessor;
 import cl.rutasegura.rutaseguracliente.R;
 import cl.rutasegura.rutaseguracliente.activities.detailrequestactivity.DetailRequestActivity;
 import cl.rutasegura.rutaseguracliente.activities.historybooking.HistoryBookingClientActivity;
@@ -92,7 +97,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
     private AuthProvider mAuthProvider;
-
+    Dialog dialog;
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocation;
 
@@ -132,7 +137,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private HashMap<String, String> mImagesMarkers = new HashMap<String, String>();
     private int mCounter = 0;
-
+    private int role;
     SharedPreferences mPref;
     Toolbar toolbar;
     private ClientProvider mClientProvider;
@@ -181,7 +186,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mClientProvider = new ClientProvider();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
-
+        dialog = new Dialog(this);
         mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
         if (!Places.isInitialized()) {
@@ -196,6 +201,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleApiClient = getAPIClientInstance();
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
+        }
+        if (role!=1) {
+            ShowAlertDialog();
         }
 
         mPref = getApplicationContext().getSharedPreferences("RideStatus", MODE_PRIVATE);
@@ -288,6 +296,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (snapshot.exists()) {
                     String firstname = snapshot.child("firstname").getValue().toString();
                     String email = snapshot.child("email").getValue().toString();
+                    role = Integer.parseInt(snapshot.child("role").getValue().toString());
                     username.setText(firstname);
                     emails.setText(email);
                 }
@@ -654,5 +663,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mTokenProvider.create(mAuthProvider.getId());
     }
 
-
-}
+   private void ShowAlertDialog(){
+       dialog.setContentView(R.layout.alert_dialog);
+       dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+       dialog.setCancelable(false);
+       dialog.setCanceledOnTouchOutside(false);
+       Button btncontinue = dialog.findViewById(R.id.acceptreport);
+       btncontinue.setOnClickListener(v -> {
+           startActivity(new Intent(this,LoginActivity.class));
+           dialog.dismiss();
+           mAuthProvider.logout();
+       });
+       dialog.show();
+   }
+   }

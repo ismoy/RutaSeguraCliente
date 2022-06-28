@@ -4,9 +4,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import cl.rutasegura.rutaseguracliente.model.Client;
 
 public class ClientProvider {
@@ -18,6 +15,9 @@ public class ClientProvider {
 
     public Task<Void> create(Client client){
         return database.child(client.getIdClient()).setValue(client);
+    }
+    public DatabaseReference createrole(){
+        return database.child("role");
     }
     public DatabaseReference getClient(String idClient){
         return database.child(idClient);

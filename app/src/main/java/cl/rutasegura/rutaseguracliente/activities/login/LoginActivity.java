@@ -5,15 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import cl.rutasegura.rutaseguracliente.R;
 import cl.rutasegura.rutaseguracliente.activities.maps.MapsActivity;
 import cl.rutasegura.rutaseguracliente.activities.register.RegisterActivity;
 import cl.rutasegura.rutaseguracliente.databinding.ActivityLoginBinding;
 import cl.rutasegura.rutaseguracliente.provider.AuthProvider;
+import cl.rutasegura.rutaseguracliente.provider.ClientProvider;
 import cl.rutasegura.rutaseguracliente.utils.ValidateGeneral;
 
 public class LoginActivity extends AppCompatActivity {
@@ -75,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }else {
                 mDialog.dismiss();
-                Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Correo electronico o contraseña no se existe", Toast.LENGTH_SHORT).show();
             }
         });
     }

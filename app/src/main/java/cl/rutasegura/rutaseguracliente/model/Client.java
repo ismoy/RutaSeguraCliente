@@ -8,10 +8,11 @@ public class Client {
     String password;
     String password2;
     String image;
+    int role =1;
     public Client() {
     }
 
-    public Client(String idClient, String firstname, String lastname, String email, String password, String password2, String image) {
+    public Client(String idClient, String firstname, String lastname, String email, String password, String password2, String image,int role) {
         this.idClient = idClient;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -19,6 +20,7 @@ public class Client {
         this.password = password;
         this.password2 = password2;
         this.image = image;
+        this.role = role;
     }
 
     public String getIdClient() {
@@ -75,5 +77,13 @@ public class Client {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

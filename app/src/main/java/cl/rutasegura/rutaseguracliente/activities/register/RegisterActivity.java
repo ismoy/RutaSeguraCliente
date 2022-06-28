@@ -7,11 +7,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
@@ -237,7 +241,7 @@ public class RegisterActivity extends AppCompatActivity {
         mProgressDialog.dismiss();
         if (task.isSuccessful()) {
             String id =(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())).getUid();
-            Client client = new Client(id,firstname,lastname,email,password,confirmpassword,"");
+            Client client = new Client(id,firstname,lastname,email,password,confirmpassword,"",1);
             RegisterClient(client);
             FirebaseUser user = fAuth.getCurrentUser();
             fAuth.setLanguageCode("es");
@@ -257,6 +261,8 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
+                mAuthProvider.logout();
             }else {
                 Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
