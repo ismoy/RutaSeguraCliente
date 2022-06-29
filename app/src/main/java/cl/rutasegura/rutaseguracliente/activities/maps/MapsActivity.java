@@ -137,12 +137,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private HashMap<String, String> mImagesMarkers = new HashMap<String, String>();
     private int mCounter = 0;
-    private int role;
     SharedPreferences mPref;
     Toolbar toolbar;
     private ClientProvider mClientProvider;
     private ArrayList<DriverLocation> mDriversLocation = new ArrayList<>();
     private GoogleApiClient mGoogleApiClient;
+    private int role;
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -202,9 +202,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
-        if (role!=1) {
-            ShowAlertDialog();
-        }
+
 
         mPref = getApplicationContext().getSharedPreferences("RideStatus", MODE_PRIVATE);
         String status = mPref.getString("status", "");
@@ -215,7 +213,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             onCameraMove();
             deleteClientBooking();
-            generateToken();
         }
         binding.getRoot().findViewById(R.id.btnRequestDriver).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,6 +227,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
         senDataInDrawable();
+
         toggle.syncState();
         NavigationView navigationView = binding.navView;
 
@@ -290,15 +288,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         View mHeaderView = binding.navView.getHeaderView(0);
         TextView username = mHeaderView.findViewById(R.id.textviewnamedrwawerclient);
         TextView emails = mHeaderView.findViewById(R.id.textviewcorreodrawerclient);
-        mClientProvider.getClient(mAuthProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mClientProvider.getClient(mAuthProvider.getId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String firstname = snapshot.child("firstname").getValue().toString();
                     String email = snapshot.child("email").getValue().toString();
-                    role = Integer.parseInt(snapshot.child("role").getValue().toString());
                     username.setText(firstname);
                     emails.setText(email);
+                    generateToken();
+                }else {
+                    ShowAlertDialog();
                 }
             }
 

@@ -37,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Objects;
 
 import cl.rutasegura.rutaseguracliente.R;
 import cl.rutasegura.rutaseguracliente.activities.calificationdriver.CalificationDriverActivity;
@@ -245,7 +246,12 @@ public class MapsClientBookingActivity extends AppCompatActivity implements OnMa
                 if (dataSnapshot.exists()) {
                     if (dataSnapshot.hasChild("image")) {
                         String image = dataSnapshot.child("image").getValue().toString();
-                        Picasso.with(MapsClientBookingActivity.this).load(image).into(mImageViewBooking);
+                        if (Objects.equals(image, "")) {
+                            mImageViewBooking.setImageResource(R.drawable.man);
+                        }else {
+                            Picasso.with(MapsClientBookingActivity.this).load(image).into(mImageViewBooking);
+
+                        }
                     }
 
                     if (dataSnapshot.hasChild("firstname")) {

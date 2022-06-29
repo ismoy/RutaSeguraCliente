@@ -13,6 +13,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import cl.rutasegura.rutaseguracliente.R;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -54,7 +55,7 @@ public class PopupAdapter implements GoogleMap.InfoWindowAdapter {
 
             String image = images.get(marker.getTag().toString());
 
-            if (image == null) {
+            if (Objects.equals(image, "")) {
                 circleImageIcon.setImageResource(R.drawable.ic_baseline_person_24);
             }
             else {
