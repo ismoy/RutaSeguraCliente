@@ -12,6 +12,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import cl.rutasegura.rutaseguracliente.R;
 import cl.rutasegura.rutaseguracliente.databinding.ActivityHistoryBookingDetailClientBinding;
 import cl.rutasegura.rutaseguracliente.model.HistoryBooking;
@@ -66,7 +68,13 @@ public class HistoryBookingDetailClientActivity extends AppCompatActivity {
                                 binding.textViewNameBookingDetail.setText(name.toUpperCase());
                                 if (dataSnapshot.hasChild("image")) {
                                     String image = dataSnapshot.child("image").getValue().toString();
-                                    Picasso.with(HistoryBookingDetailClientActivity.this).load(image).into(binding.circleImageHistoryBookingDetail);
+                                    if (Objects.equals(image, "")) {
+                                        binding.circleImageHistoryBookingDetail.setImageResource(R.drawable.ic_baseline_person_24);
+                                    }
+                                    else {
+                                        Picasso.with(HistoryBookingDetailClientActivity.this).load(image).into(binding.circleImageHistoryBookingDetail);
+
+                                    }
                                 }
                             }
                         }
